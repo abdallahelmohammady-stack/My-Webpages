@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Webpages</title>
+    <link rel="icon" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-body: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            --bg-glass: rgba(30, 41, 59, 0.6);
+            --bg-card: rgba(30, 41, 59, 0.6);
+            --border-color: rgba(148, 163, 184, 0.5);
+            --primary: #7c3aed;
+            --primary-hover: #6d28d9;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --radius: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: var(--bg-body);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 1300px;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .brand { 
+            font-size: 1.8rem; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border-radius: 99px;
+            border: 1px solid var(--border-color);
+            background: rgba(51, 65, 85, 0.5);
+            backdrop-filter: blur(8px);
+            color: var(--text-main);
+            outline: none;
+            font-size: 0.9rem;
+        }
+        .search-input:focus { 
+            background: rgba(51, 65, 85, 0.8);
+            border-color: #a855f7; 
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.3);
+        }
+
+        .actions { display: flex; gap: 0.5rem; }
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-glass);
+            color: var(--text-main);
+            cursor: pointer;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .btn:hover { 
+            background: rgba(51, 65, 85, 0.9);
+        }
+        .btn-primary { 
+            background: linear-gradient(135deg, #7c3aed, #6366f1); 
+            border: none; 
+            color: white;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #6d28d9, #7c3aed);
+        }
+
+        .tabs-wrapper {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            width: 100%;
+            scrollbar-width: none;
+        }
+        .tabs-wrapper::-webkit-scrollbar { display: none; }
+
+        .tab {
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-glass);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            backdrop-filter: blur(5px);
+        }
+        .tab:hover { background: rgba(168, 85, 247, 0.1); border-color: #a855f7; color: #a855f7; }
+        .tab.active { 
+            background: linear-gradient(135deg, #7c3aed, #6366f1); 
+            color: white; 
+            border: none;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .grid {
+            width: 100%;
+            max-width: 1300px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            position: relative;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-top-tools {
+            position: absolute;
+            top: 12px;
+            left: 12px; 
+            display: flex;
+            gap: 6px;
+            background: rgba(51, 65, 85, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .card:hover .card-top-tools {
+            opacity: 1;
+        }
+
+        .tool-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(100, 116, 139, 0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #cbd5e1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            transition: 0.2s;
+        }
+        .tool-btn:hover { background: rgba(168, 85, 247, 0.2); color: #a855f7; border-color: rgba(168, 85, 247, 0.2); }
+        .tool-btn.delete:hover { background: rgba(239, 68, 68, 0.2); color: #ef4444; border-color: rgba(239, 68, 68, 0.2); }
+        .tool-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .logo-container {
+            width: 70px;
+            height: 70px;
+            background: rgba(51, 65, 85, 0.5);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1.25rem 0 1rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo-img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+        }
+
+        .card-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.3;
+        }
+
+        .btn-visit {
+            width: calc(100% - 24px);
+            padding: 0.6rem;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            color: white;
+            box-shadow: 0 2px 5px rgba(124, 58, 237, 0.2);
+        }
+        .btn-visit:hover { 
+            background: linear-gradient(135deg, #6d28d9, #7c3aed);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group { margin-bottom: 1.2rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.9rem; color: #cbd5e1; }
+        .form-input, .form-select, .form-file {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: rgba(51, 65, 85, 0.5);
+            color: #f1f5f9;
+            outline: none;
+        }
+        .form-input:focus, .form-select:focus { border-color: #a855f7; box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2); }
+        .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a855f7'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 1rem center;
+            background-size: 1em;
+            padding-left: 2.5rem;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .icon-upload-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .preview-box {
+            width: 50px; height: 50px;
+            background: rgba(51, 65, 85, 0.5);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .preview-box img { width: 100%; height: 100%; object-fit: contain; }
+
+        .modal-footer { display: flex; justify-content: flex-end; gap: 0.8rem; margin-top: 2rem; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 0.8rem 2rem;
+            border-radius: 99px;
+            font-weight: 700;
+            z-index: 2000;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        @media (max-width: 600px) {
+            .header { padding: 0 1rem; }
+            .top-row { border-radius: 20px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .logo-container { width: 60px; height: 60px; }
+        }
+
+        .card.dragging { opacity: 0.5; transform: scale(0.95); border-color: #a855f7; }
+        .card.drag-over { border-color: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); }
+        .card[draggable="true"] { cursor: grab; }
+        .card[draggable="true"]:active { cursor: grabbing; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="top-row">
+            <div class="brand">SpeedDial</div>
+            <div class="search-box">
+                <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8;">
+                    <i data-lucide="search" style="width: 20px; height: 20px;"></i>
+                </span>
+                <input type="text" id="searchInput" class="search-input" placeholder="بحث في المواقع...">
+            </div>
+            <div class="actions">
+                <button class="btn" onclick="document.getElementById('fileInput').click()">
+                    <i data-lucide="upload" style="width: 16px; height: 16px;"></i>
+                    استيراد
+                </button>
+                <input type="file" id="fileInput" accept=".html" style="display:none" onchange="handleImport(this)">
+                <button class="btn btn-primary" onclick="openModal()">
+                    <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+                    إضافة
+                </button>
+            </div>
+        </div>
+
+        <div class="tabs-wrapper" id="tabs">
+            <!-- Tabs generated by JS -->
+        </div>
+    </header>
+
+    <div class="grid" id="grid">
+        <!-- Cards generated by JS -->
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 style="margin-bottom: 1.5rem; font-size: 1.4rem; color: #f1f5f9;" id="modalTitle">إضافة موقع</h2>
+            <form id="siteForm">
+                <input type="hidden" id="editId">
+                <input type="hidden" id="sourceContext" value="lib">
+                <input type="hidden" id="iconBase64" value="">
+                
+                <div class="form-group">
+                    <label class="form-label">اسم الموقع</label>
+                    <input type="text" id="inputName" class="form-input" required placeholder="مثال: Google">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الرابط (URL)</label>
+                    <input type="url" id="inputUrl" class="form-input" required placeholder="https://...">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">أيقونة الموقع (اختياري)</label>
+                    <div class="icon-upload-area">
+                        <input type="file" id="iconInput" accept="image/*" class="form-file" onchange="handleIconUpload(this)">
+                        <div class="preview-box" id="iconPreview">
+                            <span style="font-size:0.7rem;color:#94a3b8">Logo</span>
+                        </div>
+                        <span style="font-size: 0.8rem; color: #94a3b8;">اختر صورة من جهازك</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">التصنيف</label>
+                    <select id="inputCategory" class="form-select"></select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="closeModal()" style="border-color:transparent;">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">✅ تم الحفظ</div>
+
+    <script>
+        const SVG_ICONS = {
+            'home': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>',
+            'all': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>',
+            'cyber': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
+            'dev': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 12 2 16 6"></polyline><line x1="12" y1="2" x2="12" y2="22"></line></svg>',
+            'courses': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>',
+            'tools': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>',
+            'media': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>',
+            'social': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
+            'cloud': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>',
+            'other': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>'
+        };
+
+        const CATEGORIES = {
+            'home': { name: 'الرئيسية', icon: SVG_ICONS['home'] },
+            'all': { name: 'المكتبة (المستوردة)', icon: SVG_ICONS['all'] },
+            'cyber': { name: 'أمن معلومات', icon: SVG_ICONS['cyber'] },
+            'dev': { name: 'تطوير برمجيات', icon: SVG_ICONS['dev'] },
+            'courses': { name: 'دورات تعليمية', icon: SVG_ICONS['courses'] },
+            'tools': { name: 'أدوات وتطبيقات', icon: SVG_ICONS['tools'] },
+            'media': { name: 'وسائط وترفيه', icon: SVG_ICONS['media'] },
+            'social': { name: 'تواصل اجتماعي', icon: SVG_ICONS['social'] },
+            'cloud': { name: 'خدمات سحابية', icon: SVG_ICONS['cloud'] },
+            'other': { name: 'أخرى', icon: SVG_ICONS['other'] }
+        };
+
+        const HOME_ITEMS = [
+            { id: 101, name: "YouTube", url: "https://youtube.com", category: "media" },
+            { id: 102, name: "CyberPentest Roadmap", url: "https://cyberpentest1.com", category: "cyber" },
+            { id: 103, name: "CCE Hub - مكتبة المواد", url: "https://ccehub.net", category: "courses" },
+            { id: 104, name: "Discord", url: "https://discord.com", category: "social" },
+            { id: 105, name: "Google Drive", url: "https://drive.google.com", category: "cloud" },
+            { id: 106, name: "Yanfaa", url: "https://yanfaa.ly", category: "courses" },
+            { id: 107, name: "إدراك | دورات باللّغة العربيّة", url: "https://www.edraak.org", category: "courses" },
+            { id: 108, name: "الصفحة الرئيسة | Mahara-Tech", url: "https://mahara-tech.com", category: "courses" },
+            { id: 109, name: "NotebookLM", url: "https://notebooklm.google.com", category: "tools" },
+            { id: 110, name: "Google Docs", url: "https://docs.google.com", category: "cloud" },
+            { id: 111, name: "Z.ai - Free AI Chatbot", url: "https://z.ai", category: "dev" },
+            { id: 112, name: "Arena | Benchmark & Compare AI", url: "https://lmarena.ai", category: "dev" },
+            { id: 113, name: "ChatGPT", url: "https://chat.openai.com", category: "dev" },
+            { id: 114, name: "iLovePDF", url: "https://www.ilovepdf.com", category: "tools" },
+            { id: 115, name: "iLoveIMG", url: "https://www.iloveimg.com", category: "tools" },
+            { id: 116, name: "أداة تحويل أونلاين", url: "https://convertio.co", category: "tools" },
+            { id: 117, name: "PDF24", url: "https://tools.pdf24.org", category: "tools" },
+            { id: 118, name: "Convertio — محوّل الملفات", url: "https://convertio.co", category: "tools" },
+            { id: 119, name: "URL to Any", url: "https://urltoany.com", category: "tools" },
+            { id: 120, name: "Video Converter", url: "https://www.y2mate.com", category: "tools" },
+            { id: 121, name: "Linktree Admin", url: "https://linktr.ee", category: "social" },
+            { id: 122, name: "New Tab", url: "chrome://newtab", category: "other" },
+            { id: 123, name: "GitHub Dashboard", url: "https://github.com", category: "dev" },
+            { id: 124, name: "Documents", url: "#", category: "other" },
+            { id: 125, name: "Reverso Context", url: "https://context.reverso.net", category: "tools" },
+            { id: 126, name: "Gmail", url: "https://mail.google.com", category: "social" },
+            { id: 127, name: "Facebook", url: "https://facebook.com", category: "social" },
+            { id: 128, name: "TypingClub", url: "https://www.typingclub.com", category: "courses" },
+            { id: 129, name: "EdClub", url: "https://www.edclub.com", category: "courses" },
+            { id: 130, name: "TypeRacer", url: "https://play.typeracer.com", category: "media" },
+            { id: 131, name: "Google Photos", url: "https://photos.google.com", category: "cloud" },
+            { id: 132, name: "MyU", url: "https://myu.mans.edu.eg", category: "courses" },
+            { id: 133, name: "جامعة المنصورة", url: "https://www.mans.edu.eg", category: "courses" },
+            { id: 134, name: "بوابة الفجر الرياضي", url: "#", category: "media" },
+            { id: 135, name: "Shahid4u", url: "https://shahid4u.live", category: "media" },
+            { id: 136, name: "Quran FM", url: "https://radio.garden", category: "media" },
+            { id: 137, name: "MacUpdate", url: "https://www.macupdate.com", category: "tools" },
+            { id: 138, name: "Stack Overflow", url: "https://stackoverflow.com", category: "dev" },
+            { id: 139, name: "draw.io", url: "https://app.diagrams.net", category: "dev" },
+            { id: 140, name: "Big Timer", url: "https://www.bigtimer.net", category: "tools" },
+            { id: 141, name: "VirusTotal", url: "https://www.virustotal.com", category: "cyber" },
+            { id: 142, name: "Hybrid Analysis", url: "https://www.hybrid-analysis.com", category: "cyber" },
+            { id: 143, name: "أكاديمية القراصنة العرب", url: "https://arabhacks.com", category: "cyber" },
+            { id: 144, name: "منصة سطر التعليمية", url: "https://sattr.com", category: "cyber" },
+            { id: 145, name: "Flaticon", url: "https://www.flaticon.com", category: "tools" },
+            { id: 146, name: "Canva", url: "https://www.canva.com", category: "tools" }
+        ];
+
+        let libData = [];
+        let homeOverrides = [];
+        let deletedHomeItems = [];
+        let homeOrder = [];
+        let libOrder = [];
+        let currentTab = 'home';
+        let draggedId = null;
+        let dragOverId = null;
+
+        function getDomain(url) {
+            try {
+                let u = url;
+                if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+                return new URL(u).hostname;
+            } catch {
+                return 'example.com';
+            }
+        }
+
+        function getLogoHtml(domain, name, customIcon) {
+            if (customIcon) {
+                return `<img src="${customIcon}" class="logo-img">`;
+            }
+            const u1 = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+            const u2 = `https://${domain}/favicon.ico`;
+            const u3 = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+            const u4 = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=128`;
+
+            return `<img src="${u1}" class="logo-img" loading="lazy" 
+                        onerror="this.onerror=null;this.src='${u2}'; this.onerror=function(){this.src='${u3}'; this.onerror=function(){this.src='${u4}'}}">`;
+        }
+
+        function sortItemsByOrder(items, orderIds) {
+            const orderMap = new Map(orderIds.map((id, index) => [id, index]));
+            return [...items].sort((a, b) => {
+                const aOrder = orderMap.get(a.id) ?? Infinity;
+                const bOrder = orderMap.get(b.id) ?? Infinity;
+                return aOrder - bOrder;
+            });
+        }
+
+        function saveLib() { localStorage.setItem('sd_glass_data', JSON.stringify(libData)); }
+        function saveOverrides() { localStorage.setItem('sd_home_overrides', JSON.stringify(homeOverrides)); }
+        function saveDeleted() { localStorage.setItem('sd_home_deleted', JSON.stringify(deletedHomeItems)); }
+        function saveHomeOrder() { localStorage.setItem('sd_home_order', JSON.stringify(homeOrder)); }
+        function saveLibOrder() { localStorage.setItem('sd_lib_order', JSON.stringify(libOrder)); }
+
+        function loadData() {
+            const stored = localStorage.getItem('sd_glass_data');
+            if (stored) libData = JSON.parse(stored);
+
+            const storedOverrides = localStorage.getItem('sd_home_overrides');
+            if (storedOverrides) homeOverrides = JSON.parse(storedOverrides);
+
+            const storedDeleted = localStorage.getItem('sd_home_deleted');
+            if (storedDeleted) deletedHomeItems = JSON.parse(storedDeleted);
+
+            const storedHomeOrder = localStorage.getItem('sd_home_order');
+            if (storedHomeOrder) homeOrder = JSON.parse(storedHomeOrder);
+
+            const storedLibOrder = localStorage.getItem('sd_lib_order');
+            if (storedLibOrder) libOrder = JSON.parse(storedLibOrder);
+        }
+
+        function renderTabs() {
+            const container = document.getElementById('tabs');
+            container.innerHTML = '';
+            
+            Object.keys(CATEGORIES).forEach(key => {
+                const btn = document.createElement('div');
+                btn.className = `tab ${key === currentTab ? 'active' : ''}`;
+                btn.innerHTML = `${CATEGORIES[key].icon} ${CATEGORIES[key].name}`;
+                btn.onclick = () => {
+                    currentTab = key;
+                    renderTabs();
+                    renderGrid();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function getDisplayItems() {
+            let items = [];
+            
+            if (currentTab === 'home') {
+                items = HOME_ITEMS
+                    .map(item => {
+                        const override = homeOverrides.find(o => o.id === item.id);
+                        return override ? { ...item, ...override } : item;
+                    })
+                    .filter(item => !deletedHomeItems.includes(item.id));
+                
+                if (homeOrder.length > 0) {
+                    items = sortItemsByOrder(items, homeOrder);
+                }
+            } else if (currentTab === 'all') {
+                items = libData;
+            } else {
+                items = libData.filter(i => i.category === currentTab);
+            }
+            
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            if (term) {
+                items = items.filter(i => 
+                    i.name.toLowerCase().includes(term) || 
+                    i.url.toLowerCase().includes(term)
+                );
+            }
+            
+            return items;
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            
+            const items = getDisplayItems();
+            
+            items.forEach((item, index) => {
+                const domain = getDomain(item.url);
+                const logo = getLogoHtml(domain, item.name, item.customIcon);
+                
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.draggable = true;
+                card.dataset.id = item.id;
+                
+                card.innerHTML = `
+                    <div class="card-top-tools">
+                        <div class="tool-btn" title="سحب" style="cursor: grab;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>
+                        </div>
+                        <button class="tool-btn" onclick="handleMoveUp(${item.id}, ${index})" ${index === 0 ? 'disabled' : ''} title="تحريك لأعلى">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"></path><path d="m6 9 6 6 6"></path></svg>
+                        </button>
+                        <button class="tool-btn" onclick="handleMoveDown(${item.id}, ${index}, ${items.length})" ${index === items.length - 1 ? 'disabled' : ''} title="تحريك لأسفل">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6"></path><path d="m18 15-6-6-6 6"></path></svg>
+                        </button>
+                        <button class="tool-btn" onclick="editItem(${item.id})" title="تعديل">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1-4 0L7.5 8.5a2.85 2.83 0 1 1 4 0l6.7-6.7a2.85 2.83 0 0 0-4-4l-.7-.7a2.85 2.83 0 0 0-4 0Z"></path><path d="m15 5 6 6"></path></svg>
+                        </button>
+                        <button class="tool-btn delete" onclick="deleteItem(${item.id})" title="حذف">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                        </button>
+                    </div>
+                    <div class="logo-container">
+                        ${logo}
+                    </div>
+                    <div class="card-name">${item.name}</div>
+                    <button class="btn-visit" onclick="window.open('${item.url}', '_blank')">
+                        زيارة <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 15"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </button>
+                `;
+                
+                card.addEventListener('dragstart', (e) => handleDragStart(e, item.id));
+                card.addEventListener('dragover', (e) => handleDragOver(e, item.id));
+                card.addEventListener('dragleave', handleDragLeave);
+                card.addEventListener('drop', (e) => handleDrop(e, item.id));
+                
+                grid.appendChild(card);
+            });
+
+            if (items.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:3rem;">لا توجد مواقع في هذا القسم</div>';
+            }
+            
+            lucide.createIcons();
+        }
+
+        function handleDragStart(e, id) {
+            draggedId = id;
+            e.dataTransfer.effectAllowed = 'move';
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragOver(e, id) {
+            e.preventDefault();
+            if (draggedId !== id) {
+                dragOverId = id;
+                e.target.closest('.card').classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            e.target.closest('.card')?.classList.remove('drag-over');
+        }
+
+        function handleDrop(e, targetId) {
+            e.preventDefault();
+            const card = e.target.closest('.card');
+            card?.classList.remove('dragging', 'drag-over');
+            
+            if (draggedId === null || draggedId === targetId) {
+                draggedId = null;
+                dragOverId = null;
+                return;
+            }
+
+            if (currentTab === 'home') {
+                const newOrder = [...(homeOrder.length > 0 ? homeOrder : HOME_ITEMS.map(i => i.id))];
+                const fromIndex = newOrder.indexOf(draggedId);
+                const toIndex = newOrder.indexOf(targetId);
+                
+                if (fromIndex !== -1 && toIndex !== -1) {
+                    newOrder.splice(fromIndex, 1);
+                    newOrder.splice(toIndex, 0, draggedId);
+                    homeOrder = newOrder;
+                    saveHomeOrder();
+                }
+            } else {
+                const items = getDisplayItems();
+                const fromIndex = libData.findIndex(i => i.id === draggedId);
+                const toIndex = libData.findIndex(i => i.id === targetId);
+                
+                if (fromIndex !== -1 && toIndex !== -1) {
+                    const [movedItem] = libData.splice(fromIndex, 1)[0];
+                    libData.splice(toIndex, 0, movedItem);
+                    saveLib();
+                }
+            }
+            
+            draggedId = null;
+            dragOverId = null;
+            renderGrid();
+        }
+
+        function handleMoveUp(id, index) {
+            if (index === 0) return;
+
+            if (currentTab === 'home') {
+                const newOrder = [...(homeOrder.length > 0 ? homeOrder : HOME_ITEMS.map(i => i.id))];
+                const temp = newOrder[index];
+                newOrder[index] = newOrder[index - 1];
+                newOrder[index - 1] = temp;
+                homeOrder = newOrder;
+                saveHomeOrder();
+            } else {
+                const items = getDisplayItems();
+                const fromIndex = libData.findIndex(i => i.id === id);
+                const toIndex = libData.findIndex(i => i.id === items[index - 1].id);
+                
+                if (fromIndex !== -1 && toIndex !== -1) {
+                    const [movedItem] = libData.splice(fromIndex, 1)[0];
+                    libData.splice(toIndex, 0, movedItem);
+                    saveLib();
+                }
+            }
+            renderGrid();
+        }
+
+        function handleMoveDown(id, index, total) {
+            if (index === total - 1) return;
+
+            if (currentTab === 'home') {
+                const newOrder = [...(homeOrder.length > 0 ? homeOrder : HOME_ITEMS.map(i => i.id))];
+                const temp = newOrder[index];
+                newOrder[index] = newOrder[index + 1];
+                newOrder[index + 1] = temp;
+                homeOrder = newOrder;
+                saveHomeOrder();
+            } else {
+                const items = getDisplayItems();
+                const fromIndex = libData.findIndex(i => i.id === id);
+                const toIndex = libData.findIndex(i => i.id === items[index + 1].id);
+                
+                if (fromIndex !== -1 && toIndex !== -1) {
+                    const [movedItem] = libData.splice(fromIndex, 1)[0];
+                    libData.splice(toIndex, 0, movedItem);
+                    saveLib();
+                }
+            }
+            renderGrid();
+        }
+
+        function openModal() {
+            document.getElementById('editId').value = '';
+            document.getElementById('sourceContext').value = 'lib';
+            document.getElementById('inputName').value = '';
+            document.getElementById('inputUrl').value = '';
+            document.getElementById('inputCategory').value = 'tools';
+            document.getElementById('iconBase64').value = '';
+            document.getElementById('iconPreview').innerHTML = '<span style="font-size:0.7rem;color:#94a3b8">Logo</span>';
+            document.getElementById('modalTitle').textContent = 'إضافة موقع';
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function closeModal() { 
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        function populateSelect() {
+            const sel = document.getElementById('inputCategory');
+            sel.innerHTML = '';
+            Object.keys(CATEGORIES).forEach(k => {
+                if (k === 'all') return;
+                const opt = document.createElement('option');
+                opt.value = k;
+                opt.textContent = CATEGORIES[k].name;
+                sel.appendChild(opt);
+            });
+        }
+
+        function editItem(id) {
+            let item = HOME_ITEMS.find(x => x.id === id);
+            let isHome = true;
+            let ctx = 'home';
+
+            if (!item) {
+                item = libData.find(x => x.id === id);
+                isHome = false;
+                ctx = 'lib';
+            }
+            if (!item) return;
+
+            document.getElementById('editId').value = id;
+            document.getElementById('sourceContext').value = ctx;
+            document.getElementById('inputName').value = item.name;
+            document.getElementById('inputUrl').value = item.url;
+            document.getElementById('inputCategory').value = item.category;
+            
+            let iconToShow = item.customIcon;
+            
+            if (iconToShow) {
+                document.getElementById('iconPreview').innerHTML = `<img src="${iconToShow}" style="width:100%;height:100%;object-fit:contain;">`;
+                document.getElementById('iconBase64').value = iconToShow;
+            } else {
+                document.getElementById('iconPreview').innerHTML = '<span style="font-size:0.7rem;color:#94a3b8">Auto</span>';
+                document.getElementById('iconBase64').value = '';
+            }
+            
+            document.getElementById('modalTitle').textContent = 'تعديل الموقع';
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function deleteItem(id) {
+            if (!confirm('حذف هذا الموقع؟')) return;
+            
+            const isHome = HOME_ITEMS.some(x => x.id === id);
+            
+            if (isHome) {
+                deletedHomeItems.push(id);
+                saveDeleted();
+                homeOverrides = homeOverrides.filter(o => o.id !== id);
+                saveOverrides();
+                homeOrder = homeOrder.filter(i => i !== id);
+                saveHomeOrder();
+            } else {
+                libData = libData.filter(x => x.id !== id);
+                saveLib();
+            }
+            
+            renderGrid();
+            showToast('تم الحذف');
+        }
+
+        function handleIconUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (file.size > 1024 * 1024) {
+                alert('حجم الصورة كبير جداً (الحد 1 ميجابايت للحفظ مساحة المتصفح).');
+                input.value = '';
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const result = e.target.result;
+                document.getElementById('iconPreview').innerHTML = `<img src="${result}" style="width:100%;height:100%;object-fit:contain;">`;
+                document.getElementById('iconBase64').value = result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleImport(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(content, "text/html");
+                const links = doc.querySelectorAll('a');
+                let count = 0;
+                
+                const newItems = [];
+                
+                links.forEach(link => {
+                    const url = link.getAttribute('href');
+                    const name = link.textContent.trim();
+                    
+                    if (url && url.startsWith('http') && name && !libData.some(s => s.url === url)) {
+                        let cat = 'other';
+                        const s = (url + name).toLowerCase();
+                        
+                        if (s.includes('facebook') || s.includes('twitter') || s.includes('insta')) cat = 'social';
+                        else if (s.includes('github') || s.includes('git')) cat = 'dev';
+                        else if (s.includes('youtube') || s.includes('netflix')) cat = 'media';
+                        else if (s.includes('pdf') || s.includes('convert')) cat = 'tools';
+                        else if (s.includes('edu') || s.includes('learn')) cat = 'courses';
+                        
+                        newItems.push({
+                            id: Date.now() + Math.random(),
+                            name,
+                            url,
+                            category: cat
+                        });
+                        count++;
+                    }
+                });
+                
+                libData = [...libData, ...newItems];
+                saveLib();
+                renderGrid();
+                showToast(`تم استيراد ${count} موقع`);
+                input.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        document.getElementById('siteForm').onsubmit = (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('editId').value;
+            const name = document.getElementById('inputName').value;
+            let url = document.getElementById('inputUrl').value;
+            const cat = document.getElementById('inputCategory').value;
+            const customIcon = document.getElementById('iconBase64').value;
+            const ctx = document.getElementById('sourceContext').value;
+
+            if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+
+            if (id) {
+                const isHomeId = HOME_ITEMS.some(i => i.id == id);
+                
+                if (isHomeId) {
+                    homeOverrides = homeOverrides.filter(o => o.id != id);
+                    homeOverrides.push({
+                        id: parseInt(id),
+                        name: name,
+                        url: url,
+                        category: cat,
+                        customIcon: customIcon || undefined
+                    });
+                    saveOverrides();
+                } else {
+                    const idx = libData.findIndex(s => s.id == id);
+                    if (idx > -1) {
+                        libData[idx] = { ...libData[idx], name, url, category: cat, customIcon: customIcon || undefined };
+                        saveLib();
+                    }
+                }
+                showToast('تم التعديل');
+            } else {
+                libData.push({ id: Date.now(), name, url, category: cat, customIcon: customIcon || undefined });
+                saveLib();
+                showToast('تمت الإضافة');
+            }
+
+            renderGrid();
+            closeModal();
+        };
+
+        document.getElementById('searchInput').addEventListener('input', renderGrid);
+
+        function showToast(message) {
+            const t = document.getElementById('toast');
+            t.textContent = message;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2000);
+        }
+
+        loadData();
+        renderTabs();
+        renderGrid();
+        populateSelect();
+        lucide.createIcons();
+    </script>
+</body>
+</html>
