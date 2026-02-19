@@ -140,9 +140,17 @@
             white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            flex-direction: row; /* Ensure standard flow */
+            gap: 0.6rem; /* Gap handles spacing in RTL automatically */
             transition: all 0.2s;
         }
+        /* Ensure SVG size inside tabs */
+        .tab svg {
+            width: 1.2em;
+            height: 1.2em;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+
         .tab:hover { 
             background: rgba(139, 92, 246, 0.1); 
             color: #c4b5fd; 
@@ -1077,7 +1085,8 @@
             appCategories.forEach(cat => {
                 const btn = document.createElement('div');
                 btn.className = `tab ${cat.id === currentTab ? 'active' : ''}`;
-                btn.innerHTML = `${cat.icon} ${cat.name}`;
+                // Icon is explicitly placed first in the string, so in RTL it appears on the Right (Start)
+                btn.innerHTML = `<span style="display:flex;align-items:center;">${cat.icon}</span> ${cat.name}`;
                 btn.onclick = () => { currentTab = cat.id; renderTabs(); renderGrid(); };
                 container.appendChild(btn);
             });
