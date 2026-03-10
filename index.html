@@ -509,6 +509,11 @@
                     استيراد
                 </button>
                 <input type="file" id="fileInput" accept=".html" style="display:none" onchange="handleImport(this)">
+                <!-- زر التحميل الجديد -->
+                <button class="btn" onclick="downloadSnapshot()">
+                    <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+                    حفظ نسخة
+                </button>
                 <button class="btn" onclick="openCatModal()">
                     <i data-lucide="settings" style="width: 16px; height: 16px;"></i>
                     التصنيفات
@@ -1409,6 +1414,87 @@
         }
 
         init();
+    </script>
+
+    <!-- --- SELF DOWNLOAD FUNCTIONALITY --- -->
+    <script>
+        function downloadSnapshot() {
+            try {
+                // 1. Generate Unique ID for Isolation
+                const uniqueId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+
+                // 2. Get Current HTML
+                let htmlContent = document.documentElement.outerHTML;
+
+                // 3. Prepare Data to Bake In (Freeze current state)
+                
+                // A. Categories
+                const currentCategories = JSON.stringify(appCategories);
+                
+                // B. Home Items (Merge Defaults + Overrides + Deleted)
+                // We want the downloaded file to start with exactly what the user sees NOW
+                const currentHomeMerged = HOME_ITEMS.map(item => {
+                    const override = homeOverrides.find(o => o.id === item.id);
+                    return override ? { ...item, ...override } : item;
+                }).filter(item => !deletedHomeItems.includes(item.id));
+                
+                // Add manual home items that don't exist in default HOME_ITEMS
+                const manualHomeItems = homeOverrides.filter(o => !HOME_ITEMS.some(h => h.id === o.id));
+                const finalHomeItems = [...currentHomeMerged, ...manualHomeItems];
+
+                // C. Library Data
+                const currentLibData = JSON.stringify(libData);
+
+                // 4. Inject Data into the HTML String
+                // We use Regex to replace the initial arrays with the current live data
+                
+                // Replace DEFAULT_CATEGORIES
+                htmlContent = htmlContent.replace(
+                    /(const DEFAULT_CATEGORIES = )(\[[\s\S]*?\]);/,
+                    `$1${currentCategories};`
+                );
+
+                // Replace HOME_ITEMS
+                htmlContent = htmlContent.replace(
+                    /(const HOME_ITEMS = )(\[[\s\S]*?\]);/,
+                    `$1${JSON.stringify(finalHomeItems)};`
+                );
+
+                // Replace libData initialization (which is loadData('sd_glass_data', []))
+                // We replace the empty array [] with our current data
+                htmlContent = htmlContent.replace(
+                    /(libData = loadData\('sd_glass_data', )(\[\]\);)/,
+                    `$1${currentLibData});`
+                );
+
+                // 5. Isolate Storage Keys
+                // Replace all 'sd_ prefixes with 'sd_uniqueId_ prefixes
+                // This ensures the downloaded file uses its own LocalStorage
+                htmlContent = htmlContent.replace(/'sd_/g, `'sd_${uniqueId}_`);
+
+                // 6. Download the Blob
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `MyWebpages_Backup_${uniqueId}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                // Optional: Show feedback (reusing existing toast function if available, or alert)
+                if(typeof showToast === 'function') {
+                    showToast('تم تحميل نسخة مستقلة بنجاح');
+                } else {
+                    alert('تم تحميل النسخة');
+                }
+
+            } catch (err) {
+                console.error("Download failed:", err);
+                alert("حدث خطأ أثناء تحميل النسخة");
+            }
+        }
     </script>
 </body>
 </html>
